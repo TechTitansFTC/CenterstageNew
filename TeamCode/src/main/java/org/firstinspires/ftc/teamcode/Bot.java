@@ -4,12 +4,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Bot extends RobotDrive{
     public DcMotor intake;
     public DcMotorEx rr;
     public DcMotorEx rl;
-   public Servo servoTransfer;
+    public Servo servoTransfer;
     public Servo servoHL;
     public Servo servoHR;
     public Servo servoSLB;
@@ -19,6 +20,20 @@ public class Bot extends RobotDrive{
     public Servo servoFlight;
     public Servo servoRR;
     public Servo servoRL;
+
+    public enum RigState {
+        RIGSTART,
+        RAISERIG,
+        LOWERMOTOR
+    };
+    RigState rigState = RigState.RIGSTART;
+    ElapsedTime rigTimer = new ElapsedTime();
+    final double rigServoIdle;
+    final double rigServoGoal;
+    final double rigServoTime; // the amount of time the rig servo takes to activate in seconds
+    final int rigLow;
+    final int rigHigh;
+
     public void init(HardwareMap hardwareMap) {
 //        fl = hardwareMap.dcMotor.get("fl"); //port 3 EH - RED (In RobotDrive)
 //        bl = hardwareMap.dcMotor.get("bl"); //port 1 CH - YELLOW (In RobotDrive)
@@ -39,6 +54,12 @@ public class Bot extends RobotDrive{
         servoFlight = hardwareMap.servo.get("flight"); //port 1 EH, Flight
         servoRR = hardwareMap.servo.get("rigr"); // port 5 EH, Rigging Right
         servoRL = hardwareMap.servo.get("rigl"); //port 0 EH, Rigging Left
+
+        rigTimer.reset();
+        rr.setTargetPosition(rigLow);
+        rr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rl.setTargetPosition(rigLow);
+        rl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //add servos and sensors to be used in all autonmous and teleop classes
         //add all the servo positions and stuff
@@ -67,6 +88,10 @@ public class Bot extends RobotDrive{
 
         servoHL.setPosition(position);
         servoHR.setPosition(position);
+    }
+
+    public void rigUp() {
+
     }
 
     //intakeonoff
