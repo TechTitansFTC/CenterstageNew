@@ -11,6 +11,7 @@ public class ATeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         bot = new RobotDrive();
+        Bot nondrivebot = new Bot();
         bot.init(hardwareMap);
 
         gpad = new DualPad();
@@ -32,11 +33,20 @@ public class ATeleop extends LinearOpMode {
                 if (gpad.dpad_left) bot.setHeading(90);
             }
 
-            if (gpad.a) {
-
+            if (gpad.right_bumper) {
+                nondrivebot.intake(true);
             }
 
-            bot.driveFieldXYW(jx, jy, jw, bot.getHeading());
+            if (gpad.right_trigger > 0.0) {
+                nondrivebot.intake(false);//intake reversed
+            }
+            if (gpad.left_trigger > 0.0){
+                jx = nondrivebot.setspeed(gpad.left_trigger, jx);
+                jy = nondrivebot.setspeed(gpad.left_trigger, jy);
+                jw = nondrivebot.setspeed(gpad.left_trigger, jw);
+
+            }
+            bot.driveXYW( jx, jy, jw);
 
             telemetry.addData("Status", "Running");
             telemetry.addData("heading", bot.getHeading());
