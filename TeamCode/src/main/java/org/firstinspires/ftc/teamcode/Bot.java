@@ -21,6 +21,7 @@ public class Bot extends RobotDrive{
     public Servo servoRR;
     public Servo servoRL;
 
+    // riggin shi
     public enum RigState {
         RIGSTART,
         RAISERIG,
@@ -28,11 +29,11 @@ public class Bot extends RobotDrive{
     };
     RigState rigState = RigState.RIGSTART;
     ElapsedTime rigTimer = new ElapsedTime();
-    final double rigServoIdle;
-    final double rigServoGoal;
+    final double rigServoIdle; // idle servo location
+    final double rigServoGoal; // final servo location
     final double rigServoTime; // the amount of time the rig servo takes to activate in seconds
-    final int rigLow;
-    final int rigHigh;
+    final int rigLow; // lower spot for the rig motor
+    final int rigHigh; // upper spot for the rig motor
 
     public void init(HardwareMap hardwareMap) {
 //        fl = hardwareMap.dcMotor.get("fl"); //port 3 EH - RED (In RobotDrive)
@@ -55,6 +56,7 @@ public class Bot extends RobotDrive{
         servoRR = hardwareMap.servo.get("rigr"); // port 5 EH, Rigging Right
         servoRL = hardwareMap.servo.get("rigl"); //port 0 EH, Rigging Left
 
+        // rigging shi
         rigTimer.reset();
         rr.setTargetPosition(rigLow);
         rr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
