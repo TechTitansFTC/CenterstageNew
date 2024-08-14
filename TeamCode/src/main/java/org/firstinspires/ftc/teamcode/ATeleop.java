@@ -52,6 +52,10 @@ public class ATeleop extends LinearOpMode {
             telemetry.addData("heading", bot.getHeading());
             telemetry.addData("IMU heading", bot.getIMUHeading());
             telemetry.update();
+
+            if (gpad.a) {
+
+            }
         }
     }
 }

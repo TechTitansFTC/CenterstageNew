@@ -29,8 +29,8 @@ public class Bot extends RobotDrive{
     };
     RigState rigState = RigState.RIGSTART;
     ElapsedTime rigTimer = new ElapsedTime();
-    final double rigServoIdle; // idle servo location
-    final double rigServoGoal; // final servo location
+    final double rigServoIdle - 0.3; // idle servo location
+    final double rigServoGoal = 0.7; // final servo location
     final double rigServoTime; // the amount of time the rig servo takes to activate in seconds
     final int rigLow; // lower spot for the rig motor
     final int rigHigh; // upper spot for the rig motor
@@ -78,22 +78,25 @@ public class Bot extends RobotDrive{
     }
 
     //rigging
-    public void rig() {
-        // up: 0.7
-        // down:
-        double position = 0.0;
-        if (position != 0.7) {
-            position = 0.7;
-        } else {
-            position = 0.0;
+    public void rig(boolean y) {
+        rr.setPower(1.0);
+        rl.setPower(1.0);
+
+        switch (rigState) {
+            case RIGSTART:
+                break;
+            case RAISERIG:
+                break;
+            case LOWERMOTOR:
+                if (Math.abs(rr.getCurrentPosition() - rigLow))
+                break;
+            default:
+                rigState = RigState.RIGSTART;
         }
 
-        servoHL.setPosition(position);
-        servoHR.setPosition(position);
-    }
-
-    public void rigUp() {
-
+        if (y && rigState != RigState.RIGSTART) {
+            rigState = RigState.RIGSTART;
+        }
     }
 
     //intakeonoff
