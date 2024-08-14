@@ -22,16 +22,11 @@ public class Bot extends RobotDrive{
     public Servo servoRL;
 
     // riggin shi
-    public enum RigState {
-        RIGSTART,
-        RAISERIG,
-        LOWERMOTOR
-    };
-    RigState rigState = RigState.RIGSTART;
+    boolean isRigged = false; // is it rigged
     ElapsedTime rigTimer = new ElapsedTime();
-    final double rigServoIdle - 0.3; // idle servo location
+    final double rigServoIdle = 0.3; // idle servo location
     final double rigServoGoal = 0.7; // final servo location
-    final double rigServoTime; // the amount of time the rig servo takes to activate in seconds
+    final double rigServoTimer; // how long it takes to get up
     final int rigLow; // lower spot for the rig motor
     final int rigHigh; // upper spot for the rig motor
 
@@ -78,24 +73,25 @@ public class Bot extends RobotDrive{
     }
 
     //rigging
-    public void rig(boolean y) {
+    public void rig() {
         rr.setPower(1.0);
         rl.setPower(1.0);
 
-        switch (rigState) {
-            case RIGSTART:
-                break;
-            case RAISERIG:
-                break;
-            case LOWERMOTOR:
-                if (Math.abs(rr.getCurrentPosition() - rigLow))
-                break;
-            default:
-                rigState = RigState.RIGSTART;
-        }
+        if (!isRigged) {
+            rigTimer.reset();
 
-        if (y && rigState != RigState.RIGSTART) {
-            rigState = RigState.RIGSTART;
+            rr.setTargetPosition(rigHigh);
+            rl.setTargetPosition(rigHigh);
+            servoRR.setPosition(rigServoGoal);
+            servoRL.setPosition(rigServoGoal);
+
+
+            while (rigTimer.milliseconds() < rigServoTimer) {
+
+            }
+        } else {
+            rr.setTargetPosition(rigLow);
+            rl.setTargetPosition(rigLow);
         }
     }
 
