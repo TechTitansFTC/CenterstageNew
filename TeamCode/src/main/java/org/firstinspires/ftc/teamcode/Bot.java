@@ -24,11 +24,11 @@ public class Bot extends RobotDrive{
     // riggin shi
     boolean isRigged = false; // is it rigged
     ElapsedTime rigTimer = new ElapsedTime();
-    final double rigServoIdle = 0.3; // idle servo location
-    final double rigServoGoal = 0.7; // final servo location
+    final double rigServoIdle = 0.17; // idle servo location
+    final double rigServoGoal = 0.74; // final servo location
     final double rigServoTimer; // how long it takes to get up
-    final int rigLow; // lower spot for the rig motor
-    final int rigHigh; // upper spot for the rig motor
+    final int rigLow = ; // lower spot for the rig motor
+    final int rigHigh = ; // upper spot for the rig motor
 
     public void init(HardwareMap hardwareMap) {
 //        fl = hardwareMap.dcMotor.get("fl"); //port 3 EH - RED (In RobotDrive)
